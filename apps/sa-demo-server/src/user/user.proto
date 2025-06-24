@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+                 package user;
+service UserService {
+ rpc createUser (UserCreateInput) returns (User) {}
+rpc users (findManyParams) returns (stream User) {}
+rpc user (UserWhereUniqueInput) returns (User) {}
+rpc updateUser (UserUpdateInput) returns (User) {}
+rpc deleteUser (UserWhereUniqueInput) returns (User) {}
+rpc findManyUser (UserWhereUniqueInput) returns (stream Admin) {}
+rpc updateUser (AdminParams) returns (stream Admin) {}
+rpc connectUser (AdminParams) returns (Admin) {}
+rpc disconnectUser (AdminParams) returns (Admin) {} 
+ }
+message UserCreateInput {
+repeated Admin admins = 1;
+string createdAt = 2;
+string email = 3;
+string firstName = 4;
+string id = 5;
+string lastName = 6;
+string password = 7;
+repeated string roles = 8;
+string updatedAt = 9;
+string username = 10;
+};
+message User {
+repeated Admin admins = 1;
+string createdAt = 2;
+string email = 3;
+string firstName = 4;
+string id = 5;
+string lastName = 6;
+string password = 7;
+repeated string roles = 8;
+string updatedAt = 9;
+string username = 10;
+};
+message UserWhereUniqueInput {
+repeated Admin admins = 1;
+string createdAt = 2;
+string email = 3;
+string firstName = 4;
+string id = 5;
+string lastName = 6;
+string password = 7;
+repeated string roles = 8;
+string updatedAt = 9;
+string username = 10;
+};
+message UserUpdateInput {
+repeated Admin admins = 1;
+string createdAt = 2;
+string email = 3;
+string firstName = 4;
+string id = 5;
+string lastName = 6;
+string password = 7;
+repeated string roles = 8;
+string updatedAt = 9;
+string username = 10;
+};
+message findManyParams {
+
+};
+message Admin {
+string createdAt = 1;
+string email = 2;
+string firstName = 3;
+string id = 4;
+string lastName = 5;
+string password = 6;
+bool superAdmin = 7;
+string updatedAt = 8;
+string username = 9;
+};
+message AdminWhereUniqueInput {
+string createdAt = 1;
+string email = 2;
+string firstName = 3;
+string id = 4;
+string lastName = 5;
+string password = 6;
+bool superAdmin = 7;
+string updatedAt = 8;
+string username = 9;
+};
+message AdminParams {
+UserWhereUniqueInput userWhereUniqueInput = 1;
+AdminWhereUniqueInput adminWhereUniqueInput = 2;
+};

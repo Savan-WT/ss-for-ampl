@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+                 package admin;
+service AdminService {
+ rpc createAdmin (AdminCreateInput) returns (Admin) {}
+rpc admins (findManyParams) returns (stream Admin) {}
+rpc admin (AdminWhereUniqueInput) returns (Admin) {}
+rpc updateAdmin (AdminUpdateInput) returns (Admin) {}
+rpc deleteAdmin (AdminWhereUniqueInput) returns (Admin) {} 
+ }
+message AdminCreateInput {
+string createdAt = 1;
+string email = 2;
+string firstName = 3;
+string id = 4;
+string lastName = 5;
+string password = 6;
+bool superAdmin = 7;
+string updatedAt = 8;
+string username = 9;
+};
+message Admin {
+string createdAt = 1;
+string email = 2;
+string firstName = 3;
+string id = 4;
+string lastName = 5;
+string password = 6;
+bool superAdmin = 7;
+string updatedAt = 8;
+string username = 9;
+};
+message AdminWhereUniqueInput {
+string createdAt = 1;
+string email = 2;
+string firstName = 3;
+string id = 4;
+string lastName = 5;
+string password = 6;
+bool superAdmin = 7;
+string updatedAt = 8;
+string username = 9;
+};
+message AdminUpdateInput {
+string createdAt = 1;
+string email = 2;
+string firstName = 3;
+string id = 4;
+string lastName = 5;
+string password = 6;
+bool superAdmin = 7;
+string updatedAt = 8;
+string username = 9;
+};
+message findManyParams {
+
+};

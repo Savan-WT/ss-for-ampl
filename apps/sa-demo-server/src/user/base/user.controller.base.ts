@@ -22,6 +22,9 @@ import { User } from "./User";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserWhereUniqueInput } from "./UserWhereUniqueInput";
 import { UserUpdateInput } from "./UserUpdateInput";
+import { AdminFindManyArgs } from "../../admin/base/AdminFindManyArgs";
+import { Admin } from "../../admin/base/Admin";
+import { AdminWhereUniqueInput } from "../../admin/base/AdminWhereUniqueInput";
 import { VerifyUserInput } from "../VerifyUserInput";
 import { VerifyUserOutput } from "../VerifyUserOutput";
 
@@ -158,6 +161,93 @@ export class UserControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.Get("/:id/admins")
+  @ApiNestedQuery(AdminFindManyArgs)
+  async findAdmins(
+    @common.Req() request: Request,
+    @common.Param() params: UserWhereUniqueInput
+  ): Promise<Admin[]> {
+    const query = plainToClass(AdminFindManyArgs, request.query);
+    const results = await this.service.findAdmins(params.id, {
+      ...query,
+      select: {
+        createdAt: true,
+        email: true,
+        firstName: true,
+        id: true,
+        lastName: true,
+        password: true,
+        superAdmin: true,
+        updatedAt: true,
+
+        user: {
+          select: {
+            id: true,
+          },
+        },
+
+        username: true,
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/admins")
+  async connectAdmins(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: AdminWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      admins: {
+        connect: body,
+      },
+    };
+    await this.service.updateUser({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/admins")
+  async updateAdmins(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: AdminWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      admins: {
+        set: body,
+      },
+    };
+    await this.service.updateUser({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/admins")
+  async disconnectAdmins(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: AdminWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      admins: {
+        disconnect: body,
+      },
+    };
+    await this.service.updateUser({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 
   @common.Post("/verify")

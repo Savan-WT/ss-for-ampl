@@ -1,6 +1,8 @@
+import { Admin } from "../admin/Admin";
 import { JsonValue } from "type-fest";
 
 export type User = {
+  admins?: Array<Admin>;
   createdAt: Date;
   email: string | null;
   firstName: string | null;

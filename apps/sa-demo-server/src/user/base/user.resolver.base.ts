@@ -20,6 +20,8 @@ import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { CreateUserArgs } from "./CreateUserArgs";
 import { UpdateUserArgs } from "./UpdateUserArgs";
 import { DeleteUserArgs } from "./DeleteUserArgs";
+import { AdminFindManyArgs } from "../../admin/base/AdminFindManyArgs";
+import { Admin } from "../../admin/base/Admin";
 import { VerifyUserInput } from "../VerifyUserInput";
 import { VerifyUserOutput } from "../VerifyUserOutput";
 import { UserService } from "../user.service";
@@ -87,6 +89,20 @@ export class UserResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [Admin], { name: "admins" })
+  async findAdmins(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: AdminFindManyArgs
+  ): Promise<Admin[]> {
+    const results = await this.service.findAdmins(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 
   @graphql.Mutation(() => VerifyUserOutput)
